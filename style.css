@@ -1,0 +1,708 @@
+/* ============================================================
+   RESET + BASE (TEMA FNAF)
+   ============================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@400;700;900&display=swap');
+
+:root {
+    --bg-primary: #0a0000;
+    --bg-panel: #110000;
+    --neon-red: #ff0033;
+    --neon-purple: #8b00ff;
+    --neon-yellow: #ffcc00;
+    --neon-blue: #00ccff;
+    --text-main: #d4c4a8;
+    --text-dim: #665544;
+    --border-glow: #ff003355;
+    --scanline: rgba(0, 0, 0, 0.3);
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-main);
+    font-family: 'Orbitron', monospace;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    /* Efeito CRT / scanlines */
+    background-image:
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            var(--scanline) 2px,
+            var(--scanline) 4px);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* overlay VHS analógico */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at center,
+            transparent 60%,
+            rgba(0, 0, 0, 0.7) 100%);
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* ============================================================
+   PAINEL PRINCIPAL
+   ============================================================ */
+.panel {
+    max-width: 820px;
+    width: 100%;
+    background: var(--bg-panel);
+    border: 2px solid var(--neon-red);
+    box-shadow:
+        0 0 20px var(--neon-red),
+        inset 0 0 40px rgba(255, 0, 51, 0.15);
+    padding: 30px 25px;
+    border-radius: 12px;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(2px);
+    transition: box-shadow 0.3s;
+}
+
+.panel:hover {
+    box-shadow:
+        0 0 40px var(--neon-red),
+        0 0 80px var(--neon-purple),
+        inset 0 0 60px rgba(255, 0, 51, 0.25);
+}
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+.header {
+    text-align: center;
+    border-bottom: 2px solid var(--neon-purple);
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.header h1 {
+    font-family: 'Creepster', cursive;
+    font-size: 2.4rem;
+    letter-spacing: 4px;
+    color: var(--neon-yellow);
+    text-shadow:
+        0 0 10px var(--neon-yellow),
+        0 0 30px var(--neon-red),
+        0 0 60px var(--neon-purple);
+    animation: flicker 3s infinite;
+}
+
+.header .sub {
+    font-size: 0.7rem;
+    color: var(--neon-blue);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    text-shadow: 0 0 8px var(--neon-blue);
+}
+
+/* ============================================================
+   COINS (moedas)
+   ============================================================ */
+.coin-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(255, 0, 51, 0.08);
+    border: 1px solid var(--neon-yellow);
+    border-radius: 40px;
+    padding: 10px 24px;
+    margin: 10px auto 18px auto;
+    width: fit-content;
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.15);
+    transition: all 0.3s;
+}
+
+.coin-display:hover {
+    box-shadow: 0 0 40px rgba(255, 204, 0, 0.3);
+    transform: scale(1.02);
+}
+
+.coin-display .icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 0 6px gold);
+}
+
+.coin-display .value {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--neon-yellow);
+    text-shadow: 0 0 20px gold;
+    min-width: 60px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.coin-display .value.pulse {
+    animation: coinPulse 0.4s ease;
+}
+
+.coin-display .label {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+}
+
+/* ============================================================
+   GERADOR
+   ============================================================ */
+.generator {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #331111;
+    border-radius: 10px;
+    padding: 20px 18px;
+    margin-bottom: 24px;
+}
+
+.generator label {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 6px;
+}
+
+.generator input[type="range"] {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(90deg, var(--neon-red), var(--neon-purple));
+    border-radius: 10px;
+    outline: none;
+    margin: 8px 0 4px 0;
+}
+
+.generator input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--neon-yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 20px gold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.generator input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 40px gold;
+}
+
+.generator input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--neon-yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 20px gold;
+    cursor: pointer;
+    border: none;
+}
+
+.range-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+    text-align: center;
+    margin: 2px 0 14px 0;
+}
+
+/* checkboxes estilo FNAF */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    justify-content: center;
+    margin: 14px 0 18px 0;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    color: var(--text-main);
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: 0.2s;
+}
+
+.options label:hover {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.options input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #1a0000;
+    border: 2px solid var(--neon-red);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
+
+.options input[type="checkbox"]:checked {
+    background: var(--neon-red);
+    box-shadow: 0 0 16px var(--neon-red);
+}
+
+.options input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: #000;
+    font-weight: 900;
+    font-size: 12px;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+}
+
+.options input[type="checkbox"]:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* ============================================================
+   BOTÃO GERAR (estilo painel FNAF)
+   ============================================================ */
+.btn-generate {
+    width: 100%;
+    padding: 16px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--neon-yellow);
+    border: 2px solid var(--neon-yellow);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.1);
+    text-shadow: 0 0 10px gold;
+    margin-top: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-generate::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,204,0,0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.btn-generate:hover::before {
+    opacity: 1;
+}
+
+.btn-generate:hover {
+    background: var(--neon-yellow);
+    color: #000;
+    box-shadow: 0 0 60px gold, 0 0 120px rgba(255,204,0,0.3);
+    transform: scale(1.02);
+}
+
+.btn-generate:active {
+    transform: scale(0.96);
+}
+
+/* ============================================================
+   SENHA GERADA (display)
+   ============================================================ */
+.password-display {
+    background: #0d0000;
+    border: 2px solid var(--neon-purple);
+    border-radius: 8px;
+    padding: 18px 16px;
+    margin: 20px 0 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    box-shadow: inset 0 0 30px rgba(139, 0, 255, 0.1);
+    min-height: 76px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.password-display.has-password {
+    border-color: var(--neon-blue);
+    box-shadow: inset 0 0 30px rgba(0, 204, 255, 0.15), 0 0 30px rgba(0, 204, 255, 0.05);
+}
+
+.password-display .pwd-text {
+    font-family: 'Courier New', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--neon-blue);
+    text-shadow: 0 0 20px var(--neon-blue);
+    word-break: break-all;
+    flex: 1;
+    letter-spacing: 2px;
+    min-width: 120px;
+}
+
+.password-display .pwd-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.password-display .pwd-actions button {
+    background: transparent;
+    border: 1px solid var(--neon-purple);
+    color: var(--neon-purple);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.password-display .pwd-actions button:hover {
+    background: var(--neon-purple);
+    color: #000;
+    box-shadow: 0 0 30px var(--neon-purple);
+    transform: scale(1.05);
+}
+
+.password-display .pwd-actions button:active {
+    transform: scale(0.95);
+}
+
+/* ============================================================
+   INDICADOR DE FORÇA
+   ============================================================ */
+.strength {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0 4px 0;
+    flex-wrap: wrap;
+}
+
+.strength .bar {
+    flex: 1;
+    height: 8px;
+    background: #1a0000;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #331111;
+    min-width: 80px;
+}
+
+.strength .bar .fill {
+    height: 100%;
+    width: 0%;
+    background: var(--neon-red);
+    transition: width 0.5s ease, background 0.5s ease;
+    border-radius: 10px;
+}
+
+.strength .label {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    min-width: 100px;
+    text-align: right;
+    letter-spacing: 1px;
+}
+
+/* ============================================================
+   FEEDBACK DE RECOMPENSA (popup)
+   ============================================================ */
+.reward-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #0d0000;
+    border: 2px solid var(--neon-yellow);
+    border-radius: 10px;
+    padding: 16px 24px;
+    box-shadow: 0 0 60px rgba(255, 204, 0, 0.3);
+    transform: translateX(120%);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 9999;
+    max-width: 360px;
+    backdrop-filter: blur(10px);
+}
+
+.reward-popup.show {
+    transform: translateX(0);
+}
+
+.reward-popup .title {
+    font-size: 0.9rem;
+    color: var(--neon-yellow);
+    font-weight: 700;
+    text-shadow: 0 0 10px gold;
+}
+
+.reward-popup .desc {
+    font-size: 0.7rem;
+    color: var(--text-main);
+    margin-top: 4px;
+}
+
+/* ============================================================
+   LOJA DE RECOMPENSAS
+   ============================================================ */
+.shop {
+    margin-top: 28px;
+    border-top: 2px solid var(--neon-purple);
+    padding-top: 20px;
+}
+
+.shop h2 {
+    font-family: 'Creepster', cursive;
+    font-size: 1.6rem;
+    color: var(--neon-purple);
+    text-shadow: 0 0 20px var(--neon-purple);
+    text-align: center;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.shop-item {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #331133;
+    border-radius: 8px;
+    padding: 14px 10px;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+    opacity: 0.7;
+    position: relative;
+    overflow: hidden;
+}
+
+.shop-item.unlocked {
+    opacity: 1;
+    border-color: var(--neon-yellow);
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.1);
+}
+
+.shop-item.unlocked:hover {
+    transform: translateY(-4px) scale(1.03);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 40px rgba(0, 204, 255, 0.2);
+}
+
+.shop-item.locked:hover {
+    transform: scale(1.02);
+    border-color: var(--neon-red);
+    box-shadow: 0 0 30px rgba(255, 0, 51, 0.15);
+}
+
+.shop-item .emoji {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.shop-item .name {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: 1px;
+}
+
+.shop-item .price {
+    font-size: 0.6rem;
+    color: var(--neon-yellow);
+    margin: 6px 0;
+}
+
+.shop-item .status {
+    font-size: 0.5rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.shop-item .status.owned {
+    color: var(--neon-blue);
+}
+
+.shop-item .status.locked-status {
+    color: var(--neon-red);
+}
+
+/* ============================================================
+   ESTATÍSTICAS
+   ============================================================ */
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #221111;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.stats strong {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* ============================================================
+   ANIMAÇÕES
+   ============================================================ */
+@keyframes flicker {
+    0%,
+    100% {
+        text-shadow: 0 0 10px var(--neon-yellow), 0 0 30px var(--neon-red), 0 0 60px var(--neon-purple);
+    }
+    25% {
+        text-shadow: 0 0 20px var(--neon-yellow), 0 0 50px var(--neon-red), 0 0 80px var(--neon-purple);
+    }
+    50% {
+        text-shadow: 0 0 5px var(--neon-yellow), 0 0 20px var(--neon-red), 0 0 40px var(--neon-purple);
+    }
+    75% {
+        text-shadow: 0 0 15px var(--neon-yellow), 0 0 45px var(--neon-red), 0 0 70px var(--neon-purple);
+    }
+}
+
+@keyframes coinPulse {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.3); color: #ffdd44; }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 2px); }
+    100% { transform: translate(0); }
+}
+
+.glitch-text {
+    animation: glitch 0.15s infinite;
+}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+@media (max-width: 600px) {
+    .panel {
+        padding: 18px 12px;
+    }
+    .header h1 {
+        font-size: 1.6rem;
+    }
+    .header .sub {
+        font-size: 0.5rem;
+        letter-spacing: 3px;
+    }
+    .password-display {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .password-display .pwd-actions {
+        justify-content: center;
+    }
+    .password-display .pwd-text {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    .shop-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .coin-display .value {
+        font-size: 1.5rem;
+    }
+    .btn-generate {
+        font-size: 1rem;
+        padding: 14px;
+        letter-spacing: 2px;
+    }
+    .options {
+        gap: 8px 14px;
+    }
+    .options label {
+        font-size: 0.6rem;
+    }
+    .stats {
+        font-size: 0.5rem;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .reward-popup {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        padding: 14px 18px;
+    }
+}
+
+@media (max-width: 400px) {
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+    .header h1 {
+        font-size: 1.3rem;
+    }
+    .coin-display {
+        padding: 8px 16px;
+    }
+    .coin-display .value {
+        font-size: 1.2rem;
+        min-width: 40px;
+    }
+    .coin-display .icon {
+        font-size: 1.4rem;
+    }
+}
