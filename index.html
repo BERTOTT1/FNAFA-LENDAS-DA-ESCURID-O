@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>FNAF - Gerador de Senhas</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ============================================================
+    POPUP DE RECOMPENSA
+    ============================================================ -->
+    <div id="rewardPopup" class="reward-popup">
+        <div class="title">🪙 +<span id="rewardAmount">0</span> FNAF Coins</div>
+        <div class="desc" id="rewardDesc">Senha gerada com sucesso!</div>
+    </div>
+
+    <!-- ============================================================
+    PAINEL PRINCIPAL
+    ============================================================ -->
+    <div class="panel" id="app">
+
+        <!-- CABEÇALHO -->
+        <div class="header">
+            <h1>🎪 Freddy's Vault</h1>
+            <div class="sub">⚡ Security System v.2.0 ⚡</div>
+        </div>
+
+        <!-- MOEDAS -->
+        <div class="coin-display">
+            <span class="icon">🪙</span>
+            <span class="value" id="coinDisplay">0</span>
+            <span class="label">FNAF COINS</span>
+        </div>
+
+        <!-- GERADOR -->
+        <div class="generator">
+            <label>🔧 COMPRIMENTO: <span id="lengthLabel">12</span></label>
+            <input type="range" id="lengthSlider" min="6" max="32" value="12" />
+            <div class="range-value" id="lengthDisplay">12 caracteres</div>
+
+            <div class="options">
+                <label><input type="checkbox" id="chkUpper" checked /> A-Z</label>
+                <label><input type="checkbox" id="chkLower" checked /> a-z</label>
+                <label><input type="checkbox" id="chkNumbers" checked /> 0-9</label>
+                <label><input type="checkbox" id="chkSymbols" checked /> !@#$</label>
+            </div>
+
+            <button class="btn-generate" id="btnGenerate">🔴 GERAR SENHA</button>
+        </div>
+
+        <!-- DISPLAY DA SENHA -->
+        <div class="password-display">
+            <span class="pwd-text" id="passwordText">••••••••••••</span>
+            <div class="pwd-actions">
+                <button id="btnCopy">📋 Copiar</button>
+                <button id="btnNew">🔄 Nova</button>
+            </div>
+        </div>
+
+        <!-- FORÇA DA SENHA -->
+        <div class="strength">
+            <span class="label" id="strengthLabel">FORÇA: —</span>
+            <div class="bar"><div class="fill" id="strengthFill"></div></div>
+        </div>
+
+        <!-- LOJA -->
+        <div class="shop">
+            <h2>🏪 LOJA DE RECOMPENSAS</h2>
+            <div class="shop-grid" id="shopGrid">
+                <!-- Os itens serão injetados via JS -->
+            </div>
+        </div>
+
+        <!-- ESTATÍSTICAS -->
+        <div class="stats">
+            <span>📊 Total de senhas: <strong id="totalSenhas">0</strong></span>
+            <span>💾 Histórico: <strong id="historicoCount">0</strong></span>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script src="script.js"></script>
+
+</body>
+</html>
